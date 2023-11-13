@@ -10,7 +10,7 @@ def check_if_tool_exists(tool_name):
     return shutil.which(tool_name) is not None
 
 
-def ngless(template: Path, cpu_count: str, temp_dir: Path, sample_folder: Path) -> None:
+def ngless(template: Path, cpu_count: str, temp_dir: Path, sample_folder: Path, verbose: bool) -> None:
     """Run ngless.
 
     Arguments:
@@ -20,15 +20,21 @@ def ngless(template: Path, cpu_count: str, temp_dir: Path, sample_folder: Path) 
         database_file (str): full path fof diamond db file
         out_file (str): full path of output file
     """
+    if verbose:
+        ngless_verbosity = '--trace'
+    else:
+        ngless_verbosity = ''
     try:
         subprocess.check_output(
             [
                 "ngless",
                 "--temporary-directory",
                 temp_dir,
+                template,
                 "--jobs",
                 cpu_count,
-                template,
+                sample_folder,
+                ngless_verbosity,
             ],
             universal_newlines=True,
         )

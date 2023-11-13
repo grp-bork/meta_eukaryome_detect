@@ -1,5 +1,5 @@
-import os
 import sys
+from pathlib import Path
 
 
 def get_min_identity_pc(reference_type):
@@ -18,9 +18,9 @@ def get_min_identity_pc(reference_type):
             sys.exit(f'{reference_type} not a valid reference type!')
 
 
-def get_ngless_filtering_template(reference_type):
+def get_ngless_filtering_template(reference_type: str, temp_dir: Path):
     if reference_type == 'preprocess':
-        return """
+        return f"""
 ngless "1.1"
 import "mocat" version "0.0"
 input = load_mocat_sample(ARGV[1])
@@ -30,7 +30,7 @@ input = preprocess(input, keep_singles=True) using |read|:
     if len(read) < 70:
         discard
 
-write(input, ofile='preprocessed/preprocessed.fq' )
+write(input, ofile='{temp_dir}/preprocessed.fq' )
 """
     else:
         min_identity_pc = get_min_identity_pc(reference_type)
@@ -51,8 +51,11 @@ write(samtools_sort(mapped), ofile='filtered.bam' )
 """
 
 
-def write_templates(out_dir):
+def write_templates(out_dir, temp_dir):
+    templates = {}
     for template in ['preprocess', 'plastid', 'mito', 'pr2', 'virulence', 'viruses']:
-        out_file = os.path.join(out_dir, template + '.ngless')
+        out_file = Path(out_dir) / f'{template}.ngless'
+        templates[template] = out_file
         with open(out_file, 'w') as f:
-            f.write(get_ngless_filtering_template(template))
+            f.write(get_ngless_filtering_template(template, temp_dir))
+    return templates

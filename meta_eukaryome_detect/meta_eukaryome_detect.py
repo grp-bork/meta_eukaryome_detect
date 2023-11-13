@@ -35,9 +35,29 @@ def parse_args(args):
         metavar="",
     )
     run.add_argument(
+        "-t",
+        "--threads",
+        help="number of CPU threads. Default: 4",
+        default="4",
+        metavar="",
+    )
+    run.add_argument(
+        "-p",
+        "--parallel",
+        help="Run all mappings in parallel (threads will be split between each of the 5 references)",
+        action="store_true",
+        default=False,
+    )
+    run.add_argument(
         "-o",
         "--out_dir",
         help="Output dir.  Default: cwd",
+        default=os.getcwd(),
+        metavar="",
+    )
+    run.add_argument(
+        "--temp_dir",
+        help="Directory to store temp files. Default: cwd",
         default=os.getcwd(),
         metavar="",
     )
@@ -88,7 +108,12 @@ def start_checks(args):
 def run(args):
     ngless_template_dir = Path(args.out_dir) / 'ngless_templates'
     create_dir(ngless_template_dir)
-    create_ngless_template.write_templates(ngless_template_dir)
+    ngless_temp_dir = Path(args.out_dir) / 'ngless_temp'
+    create_dir(ngless_temp_dir)
+    templates = create_ngless_template.write_templates(ngless_template_dir, ngless_temp_dir)
+    logger.info('Running Preprocessing of input files.')
+    logger.debug('Running template: ', templates['preprocess'])
+    external_tools.ngless(templates['preprocess'], args.threads, './', 'test_sample', args.verbose)
 
 
 def main():
