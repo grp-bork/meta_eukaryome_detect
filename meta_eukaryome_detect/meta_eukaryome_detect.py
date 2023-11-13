@@ -4,8 +4,9 @@ import logging
 import os
 import sys
 from datetime import datetime
+from pathlib import Path
 
-from . import external_tools, meta_eukaryome_database
+from . import create_ngless_template, external_tools, meta_eukaryome_database
 
 logger = logging.getLogger("meta_eukaryome_detect.py")
 
@@ -27,10 +28,17 @@ def parse_args(args):
     run = subparsers.add_parser("run", help="Run Meta-Eukaryome-Detection.")
     download_db = subparsers.add_parser("download_db", help="Download meta_eukaryome_detect db.")
     run.add_argument(
-        "-r",
+        "-d",
         "--db_file",
         help="meta_eukaryome_database directory. Default: META_EUKARYOME_DETECT_DB envvar",
         default=os.environ.get("META_EUKARYOME_DETECT_DB"),
+        metavar="",
+    )
+    run.add_argument(
+        "-o",
+        "--out_dir",
+        help="Output dir.  Default: cwd",
+        default=os.getcwd(),
         metavar="",
     )
     run.add_argument(
@@ -55,25 +63,32 @@ def parse_args(args):
     return args
 
 
-def start_checks():
+def create_dir(path):
+    """Create a directory
+
+    Will create a directory if it doesnt already exist.
+
+    Arguments:
+        path (str): directory path
+    """
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+
+def start_checks(args):
     """Checks if tool dependencies are available."""
-    if not external_tools.check_if_tool_exists("diamond"):
-        logger.error("Diamond 2.0.4 not found.")
-        sys.exit(1)
-    else:
-        diamond_ver = external_tools.check_diamond_version()
-        if diamond_ver != "2.0.4":
-            logger.error(f"Diamond version is {diamond_ver}, not 2.0.4")
-            sys.exit(1)
     if not external_tools.check_if_tool_exists("ngless"):
         logger.error("Ngless not found.")
         sys.exit(1)
-    if not external_tools.check_if_tool_exists("grep"):
-        logger.error("grep not found.")
+    if not os.path.isdir(args.out_dir):
+        logger.error(f"Output Directory {args.out_dir} doesnt exist.")
         sys.exit(1)
-    if not external_tools.check_if_tool_exists("zcat"):
-        logger.error("zcat not found.")
-        sys.exit(1)
+
+
+def run(args):
+    ngless_template_dir = Path(args.out_dir) / 'ngless_templates'
+    create_dir(ngless_template_dir)
+    create_ngless_template.write_templates(ngless_template_dir)
 
 
 def main():
@@ -97,16 +112,16 @@ def main():
     if args.cmd == "download_db":
         meta_eukaryome_database.get_db(args.path)
     if args.cmd == "run":
-        start_checks()
+        start_checks(args)
         if not args.db_file:
             logger.error("Database_file argument missing.")
             sys.exit(1)
         else:
-            if not os.path.isfile(args.db_file):
+            if not os.path.isdir(args.db_file):
                 logger.error("Database_file not found.")
                 sys.exit(1)
 
-        # run(args)
+        run(args)
 
 
 if __name__ == "__main__":
