@@ -22,8 +22,6 @@ packages = [
 
 [tool.poetry.dependencies]
 python = ">=3.11,<4.0"
-click = "^8.1.7"
-
 black  = "^23.10.1"
 isort  = { version = "^5.8.0", optional = true}
 flake8  = { version = "^3.9.2", optional = true}
@@ -47,6 +45,8 @@ bump2version = {version = "^1.0.1", optional = true}
 flask = "^3.0.0"
 jinja2 = "^3.1.2"
 mkdocstrings-python = "^1.7.3"
+requests = "^2.31.0"
+types-requests = "^2.31.0.10"
 
 [tool.poetry.extras]
 test = [
@@ -71,7 +71,7 @@ doc = [
     ]
 
 [tool.poetry.scripts]
-meta-eukaryome-detect = 'meta_eukaryome_detect.cli:main'
+meta-eukaryome-detect = 'meta_eukaryome_detect.meta_eukaryome_detect:main'
 
 [tool.black]
 line-length = 120
