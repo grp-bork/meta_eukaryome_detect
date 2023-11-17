@@ -6,7 +6,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from . import create_ngless_template, external_tools, meta_eukaryome_database
+from . import create_ngless_template, depth_summary, external_tools, meta_eukaryome_database
 
 logger = logging.getLogger("meta_eukaryome_detect.py")
 
@@ -15,7 +15,7 @@ def parse_args(args):
     """Parse Arguments
 
     Arguments:
-        args (List): List of args supplied to script.
+        args: List of args supplied to script.
 
     Returns:
         Namespace: assigned args
@@ -29,9 +29,9 @@ def parse_args(args):
     download_db = subparsers.add_parser("download_db", help="Download meta_eukaryome_detect db.")
     run.add_argument(
         "-d",
-        "--db_file",
-        help="meta_eukaryome_database directory. Default: META_EUKARYOME_DETECT_DB envvar",
-        default=os.environ.get("META_EUKARYOME_DETECT_DB"),
+        "--db_dir",
+        help="meta_eukaryome_database directory. Default: META_EUKARYOME_DETECT_DB_DIR envvar",
+        default=os.environ.get("META_EUKARYOME_DETECT_DB_DIR"),
         metavar="",
     )
     run.add_argument(
@@ -100,6 +100,9 @@ def start_checks(args):
     if not external_tools.check_if_tool_exists("ngless"):
         logger.error("Ngless not found.")
         sys.exit(1)
+    if not external_tools.check_if_tool_exists("samtools"):
+        logger.error("Samtools not found.")
+        sys.exit(1)
     if not os.path.isdir(args.out_dir):
         logger.error(f"Output Directory {args.out_dir} doesnt exist.")
         sys.exit(1)
@@ -110,10 +113,29 @@ def run(args):
     create_dir(ngless_template_dir)
     ngless_temp_dir = Path(args.out_dir) / 'ngless_temp'
     create_dir(ngless_temp_dir)
-    templates = create_ngless_template.write_templates(ngless_template_dir, ngless_temp_dir)
+    result_dir = Path(args.out_dir) / 'result_dir'
+    create_dir(result_dir)
+    templates = create_ngless_template.write_templates(ngless_template_dir, ngless_temp_dir, result_dir)
     logger.info('Running Preprocessing of input files.')
-    logger.debug('Running template: ', templates['preprocess'])
+    logger.debug(f'Running template: {templates["preprocess"]}')
     external_tools.ngless(templates['preprocess'], args.threads, './', 'test_sample', args.verbose)
+    for template in ['plastid', 'mito', 'pr2', 'virulence', 'viruses']:
+        logger.info(f'Running reference: {template}')
+        DB_path = Path(args.db_dir) / f'{template}_reference'
+        external_tools.ngless(
+            templates[template],
+            args.threads,
+            './',
+            ngless_temp_dir,
+            args.verbose,
+            DB_path,
+        )
+        filtered_bam = result_dir / f"{template}_filtered.bam"
+        unique_bam = result_dir / f"{template}_unique.bam"
+        unique_depth = result_dir / f"{template}_unique.depth"
+        external_tools.samtools_unique(filtered_bam, unique_bam, args.verbose)
+        external_tools.samtools_depth(unique_bam, unique_depth, args.verbose)
+        depth_summary.get_depth_summary(result_dir, template, unique_depth, Path(args.db_dir))
 
 
 def main():
@@ -138,12 +160,12 @@ def main():
         meta_eukaryome_database.get_db(args.path)
     if args.cmd == "run":
         start_checks(args)
-        if not args.db_file:
-            logger.error("Database_file argument missing.")
+        if not args.db_dir:
+            logger.error("Database_dir argument missing.")
             sys.exit(1)
         else:
-            if not os.path.isdir(args.db_file):
-                logger.error("Database_file not found.")
+            if not os.path.isdir(args.db_dir):
+                logger.error("Database_dir not found.")
                 sys.exit(1)
 
         run(args)
