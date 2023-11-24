@@ -30,7 +30,7 @@ input = preprocess(input, keep_singles=True) using |read|:
     if len(read) < 70:
         discard
 
-write(input, ofile='{temp_dir}/preprocessed.fq' )
+write(input, ofile='{temp_dir}/preprocessed/preprocessed.fq' )
 """
     else:
         min_identity_pc = get_min_identity_pc(reference_type)
