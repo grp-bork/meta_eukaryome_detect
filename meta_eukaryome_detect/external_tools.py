@@ -43,7 +43,7 @@ def ngless(template: Path, cpu_count: str, temp_dir: Path, sample_folder: Path, 
         sys.exit(f"[ERROR] Failed to run ngless on {sample_folder} \n {e.output}")
 
 
-def samtools_unique(filtered_bam: Path, unique_bam: Path, verbose: bool) -> None:
+def samtools_unique(filtered_bam: Path, unique_bam: Path, min_map_qual: str, verbose: bool) -> None:
     """Run samtools.
 
     Arguments:
@@ -55,7 +55,7 @@ def samtools_unique(filtered_bam: Path, unique_bam: Path, verbose: bool) -> None
                 "samtools",
                 "view",
                 "-bq",
-                '1',
+                min_map_qual,
                 filtered_bam,
                 "-o",
                 unique_bam,
