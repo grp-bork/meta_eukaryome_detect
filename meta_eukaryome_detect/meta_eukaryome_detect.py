@@ -2,6 +2,7 @@
 import argparse
 import logging
 import os
+import shutil
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -22,16 +23,63 @@ def parse_args(args):
 
     """
     description = "Pathogen, Parasite, Eukaryote and Virus detection in metagenomes.\n"
-
-    parser = argparse.ArgumentParser(description=description)
+    formatter = lambda prog: argparse.HelpFormatter(prog, max_help_position=155)
+    parser = argparse.ArgumentParser(description=description, formatter_class=formatter)
     subparsers = parser.add_subparsers(title="meta_eukaryome_detect subcommands", metavar="", dest="cmd")
-    run = subparsers.add_parser("run", help="Run Meta-Eukaryome-Detection.")
-    download_db = subparsers.add_parser("download_db", help="Download meta_eukaryome_detect db.")
+    run = subparsers.add_parser("run", help="Run Meta-Eukaryome-Detection.", formatter_class=formatter)
+    advanced_run = run.add_argument_group('Advanced Options')
+    download_db = subparsers.add_parser(
+        "download_db", help="Download meta_eukaryome_detect db.", formatter_class=formatter
+    )
     run.add_argument(
         "-d",
         "--db_dir",
         help="meta_eukaryome_database directory. Default: META_EUKARYOME_DETECT_DB_DIR envvar",
         default=os.environ.get("META_EUKARYOME_DETECT_DB_DIR"),
+        metavar="",
+    )
+    run.add_argument(
+        "-i",
+        "--input_sample_dir",
+        help="Input directory contining fasta files for a sample",
+        required=True,
+        metavar="",
+    )
+    run.add_argument(
+        "-s",
+        "--sample_name",
+        help="Name to give sample, Default: Name of input dir",
+        default=None,
+        metavar="",
+    )
+    advanced_run.add_argument(
+        "--min_map_qual_plastid",
+        help="Minimum Mapping quality to use for plastid reference.",
+        default='1',
+        metavar="",
+    )
+    advanced_run.add_argument(
+        "--min_map_qual_mito",
+        help="Minimum Mapping quality to use for mitochondria reference.",
+        default='1',
+        metavar="",
+    )
+    advanced_run.add_argument(
+        "--min_map_qual_pr2",
+        help="Minimum Mapping quality to use for pr2 reference.",
+        default='20',
+        metavar="",
+    )
+    advanced_run.add_argument(
+        "--min_map_qual_virulence",
+        help="Minimum Mapping quality to use for virulence reference.",
+        default='20',
+        metavar="",
+    )
+    advanced_run.add_argument(
+        "--min_map_qual_virus",
+        help="Minimum Mapping quality to use for virus reference.",
+        default='0',
         metavar="",
     )
     run.add_argument(
@@ -60,6 +108,12 @@ def parse_args(args):
         help="Directory to store temp files. Default: cwd",
         default=os.getcwd(),
         metavar="",
+    )
+    run.add_argument(
+        "--keep_temp_files",
+        help="Do not remove temproary files",
+        action="store_true",
+        default=False,
     )
     run.add_argument(
         "-v",
@@ -109,33 +163,56 @@ def start_checks(args):
 
 
 def run(args):
+    input_dir = Path(args.input_sample_dir)
+    if not args.sample_name:
+        sample_name = input_dir.name
+    else:
+        sample_name = args.sample_name
     ngless_template_dir = Path(args.out_dir) / 'ngless_templates'
     create_dir(ngless_template_dir)
-    ngless_temp_dir = Path(args.out_dir) / 'ngless_temp'
+    ngless_temp_dir = Path(args.temp_dir) / 'ngless_temp'
     create_dir(ngless_temp_dir)
-    result_dir = Path(args.out_dir) / 'result_dir'
+    result_dir = Path(args.out_dir) / f'{sample_name}_result_dir'
     create_dir(result_dir)
     templates = create_ngless_template.write_templates(ngless_template_dir, ngless_temp_dir, result_dir)
     logger.info('Running Preprocessing of input files.')
     logger.debug(f'Running template: {templates["preprocess"]}')
-    external_tools.ngless(templates['preprocess'], args.threads, './', 'test_sample', args.verbose)
+    create_dir(ngless_temp_dir / 'preprocessed')
+    external_tools.ngless(templates['preprocess'], args.threads, ngless_temp_dir, input_dir, args.verbose)
+    read_count_file = ngless_template_dir / 'preprocess.ngless.output_ngless' / 'fq.tsv'
+    shutil.copyfile(read_count_file, result_dir / 'readcounts.tsv')
+    mapping_qualities = {
+        'plastid': args.min_map_qual_plastid,
+        'mito': args.min_map_qual_mito,
+        'pr2': args.min_map_qual_pr2,
+        'virulence': args.min_map_qual_virulence,
+        'viruses': args.min_map_qual_virus,
+    }
+
     for template in ['plastid', 'mito', 'pr2', 'virulence', 'viruses']:
         logger.info(f'Running reference: {template}')
         DB_path = Path(args.db_dir) / f'{template}_reference'
         external_tools.ngless(
             templates[template],
             args.threads,
-            './',
             ngless_temp_dir,
+            ngless_temp_dir / 'preprocessed',
             args.verbose,
             DB_path,
         )
+        unfiltered_bam = result_dir / f"{template}_unfiltered.bam"
         filtered_bam = result_dir / f"{template}_filtered.bam"
         unique_bam = result_dir / f"{template}_unique.bam"
         unique_depth = result_dir / f"{template}_unique.depth"
-        external_tools.samtools_unique(filtered_bam, unique_bam, args.verbose)
+        external_tools.samtools_unique(filtered_bam, unique_bam, mapping_qualities[template], args.verbose)
         external_tools.samtools_depth(unique_bam, unique_depth, args.verbose)
-        depth_summary.get_depth_summary(result_dir, template, unique_depth, Path(args.db_dir))
+        depth_summary.get_depth_summary(result_dir, template, unique_depth, Path(args.db_dir), sample_name)
+        if not args.keep_temp_files:
+            unfiltered_bam.unlink()
+            filtered_bam.unlink()
+            unique_depth.unlink()
+    if not args.keep_temp_files:
+        shutil.rmtree(ngless_temp_dir)
 
 
 def main():
@@ -167,7 +244,6 @@ def main():
             if not os.path.isdir(args.db_dir):
                 logger.error("Database_dir not found.")
                 sys.exit(1)
-
         run(args)
 
 
