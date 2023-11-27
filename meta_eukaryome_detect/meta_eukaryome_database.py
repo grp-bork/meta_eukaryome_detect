@@ -79,7 +79,9 @@ def check_md5(expected_md5, file_path):
     downloaded_md5 = md5sum_file(file_path)
     if downloaded_md5 != expected_md5:
         os.unlink(file_path)
-        sys.exit(f"[ERROR] MD5 check failed, removing {file_path}.")
+        return False
+    else:
+        return True
 
 
 def get_db(base_dir):
@@ -108,10 +110,23 @@ def get_db(base_dir):
         out_file = gz_file_path.replace(".gz", "")
         out_file_name = file_name.replace(".gz", "")
 
-        download_file(gz_file_url, gz_file_path)
-        check_md5(files_to_download[file_name], gz_file_path)
-        decompress_gzip_file(gz_file_path, out_file)
-        check_md5(uncompressed_md5s[out_file_name], out_file)
+        retry = 3
+        while retry:
+            download_file(gz_file_url, gz_file_path)
+            if not check_md5(files_to_download[file_name], gz_file_path):
+                logger.error(f"[ERROR] MD5 check failed, removing {gz_file_path}")
+                retry -= 1
+                continue
+            decompress_gzip_file(gz_file_path, out_file)
+            if not check_md5(uncompressed_md5s[out_file_name], out_file):
+                logger.error(f"[ERROR] MD5 check failed, removing {out_file}")
+                retry -= 1
+                continue
+            else:
+                break
+        else:
+            if retry == 0:
+                sys.exit('Downloading database files failed too many times')
         os.unlink(gz_file_path)
 
     logger.info("[INFO] DB download successful.")
