@@ -4,7 +4,7 @@ before_script:
   - python --version
   - pip3 install --upgrade pip
   - pip install poetry
-  - poetry install -E doc
+  - poetry install -E doc -E dev -E test
 
 stages:
   - Documentation
@@ -19,5 +19,3 @@ pages:
     paths:
     - public
     expire_in: 1 week
-  only:
-    - docs
