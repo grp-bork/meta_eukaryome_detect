@@ -1,0 +1,23 @@
+image: "python:3.11.3"
+
+before_script:
+  - python --version
+  - pip3 install --upgrade pip
+  - pip install poetry
+  - poetry install -E doc
+
+stages:
+  - Documentation
+
+
+pages:
+  stage: Documentation
+  script:
+    - poetry run mkdocs build
+    - mv site ./public
+  artifacts:
+    paths:
+    - public
+    expire_in: 1 week
+  only:
+    - docs
