@@ -9,7 +9,7 @@ You can contribute in many ways:
 
 ### Report Bugs
 
-Report bugs at https://git.embl.de/grp-bork/meta-eukaryome-detect/issues.
+Report bugs at [LINK](https://git.embl.de/grp-bork/meta-eukaryome-detect/issues).
 
 If you are reporting a bug, please include:
 
@@ -25,7 +25,7 @@ articles, and such.
 
 ### Submit Feedback
 
-The best way to send feedback is to file an issue at https://git.embl.de/grp-bork/meta-eukaryome-detect/issues.
+The best way to send feedback is to file an issue at [LINK](https://git.embl.de/grp-bork/meta-eukaryome-detect/issues).
 
 If you are proposing a feature:
 

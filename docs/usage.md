@@ -1,6 +1,5 @@
-# Usage
 
-To use meta-eukaryome-detect in a project
+To use meta-eukaryome-detect
 
 ```
 meta_eukaryome_detect -h
@@ -8,7 +7,7 @@ meta_eukaryome_detect -h
 ## Installation
 
 
-The recommended method of installation is through `bioconda <https://anaconda.org/bioconda/meta-eukaryome-detect>`_ ::
+The recommended method of installation is through [bioconda](https://anaconda.org/bioconda/meta-eukaryome-detect)
 
     $ conda install -c bioconda meta-eukaryome-detect
 
@@ -33,4 +32,4 @@ Separately dependencies need to be installed
 
 ## Containers
 
-Both Singularity and docker containers are available by following instructions here: `LINK <https://biocontainers.pro/#/tools/meta-eukaryome-detect>`_
+Both Singularity and docker containers are available by following instructions here: [LINK](https://biocontainers.pro/#/tools/meta-eukaryome-detect)
