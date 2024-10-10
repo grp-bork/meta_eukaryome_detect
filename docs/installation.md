@@ -1,43 +1,26 @@
-# Installation
+The recommended method of installation is through [bioconda](https://anaconda.org/bioconda/meta-eukaryome-detect)
 
-## Stable release
+    $ conda install -c bioconda meta-eukaryome-detect
 
-To install meta-eukaryome-detect, run this command in your
-terminal:
+## Download meta-eukaryome-detect DB
 
-``` console
-$ pip install meta-eukaryome-detect
-```
+Before use the meta-eukaryome-detect DB needs to be downloaded::
 
-This is the preferred method to install meta-eukaryome-detect, as it will always install the most recent stable release.
+    $ meta-eukaryome-detect download_db /path/to/output/dir/
 
-If you don't have [pip][] installed, this [Python installation guide][]
-can guide you through the process.
+The path to the META_EUKARYOME_DETECT_DB_DIR can be supplied as a command line argument
+to :code:`meta-eukaryome-detect run` or set as an environment variable: :code:`META_EUKARYOME_DETECT_DB_DIR`
 
-## From source
+## Manual Installation
 
-The source for meta-eukaryome-detect can be downloaded from
-the [Github repo][].
+Alternatively meta-eukaryome-detect can be install using pip::
 
-You can either clone the public repository:
+    $ pip install meta-eukaryome-detect
 
-``` console
-$ git clone git://github.com/fullam/meta-eukaryome-detect
-```
+META_EUKARYOME_DETECT_DB should be downloaded by following the above instructions.
+Separately dependencies need to be installed
 
-Or download the [tarball][]:
 
-``` console
-$ curl -OJL https://github.com/fullam/meta-eukaryome-detect/tarball/master
-```
+## Containers
 
-Once you have a copy of the source, you can install it with:
-
-``` console
-$ pip install .
-```
-
-  [pip]: https://pip.pypa.io
-  [Python installation guide]: http://docs.python-guide.org/en/latest/starting/installation/
-  [Github repo]: https://github.com/%7B%7B%20cookiecutter.github_username%20%7D%7D/%7B%7B%20cookiecutter.project_slug%20%7D%7D
-  [tarball]: https://github.com/%7B%7B%20cookiecutter.github_username%20%7D%7D/%7B%7B%20cookiecutter.project_slug%20%7D%7D/tarball/master
+Both Singularity and docker containers are available by following instructions here: [LINK](https://biocontainers.pro/#/tools/meta-eukaryome-detect)
