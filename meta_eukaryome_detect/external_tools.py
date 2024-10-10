@@ -14,11 +14,13 @@ def ngless(template: Path, cpu_count: str, temp_dir: Path, sample_folder: Path, 
     """Run ngless.
 
     Arguments:
-        template (str): full path of gene calls
-        threads (int): number of threads to use
-        temp_dir (str): path of directory to use for tmp files
-        database_file (str): full path fof diamond db file
-        out_file (str): full path of output file
+        template (Path): full path of gene calls
+        cpu_count (str): number of threads to use
+        temp_dir (Path): path of directory to use for tmp files
+        sample_folder (Path): full path ti sample directory
+        verbose (bool): Verbose output
+        DB_path (str): Path to directory containing metaeuk db
+
     """
     if verbose:
         ngless_verbosity = '--trace'
@@ -34,8 +36,8 @@ def ngless(template: Path, cpu_count: str, temp_dir: Path, sample_folder: Path, 
                 "--jobs",
                 cpu_count,
                 sample_folder,
-                ngless_verbosity,
                 DB_path,
+                ngless_verbosity,
             ],
             universal_newlines=True,
         )
@@ -44,7 +46,8 @@ def ngless(template: Path, cpu_count: str, temp_dir: Path, sample_folder: Path, 
 
 
 def samtools_unique(filtered_bam: Path, unique_bam: Path, min_map_qual: str, verbose: bool) -> None:
-    """Run samtools.
+    """
+    Run samtools unique.
 
     Arguments:
 
