@@ -1,7 +1,7 @@
 site_name: meta-eukaryome-detect
-site_url: https://fullam.github.io/meta-eukaryome-detect
-repo_url: https://github.com/fullam/meta-eukaryome-detect
-repo_name: fullam/meta-eukaryome-detect
+site_url: https://grp-bork.embl-community.io/grp-microbiome-astrology/meta_eukaryome_detect/
+repo_url: https://git.embl.de/grp-bork/meta-eukaryome-detect
+repo_name: grp-bork/meta-eukaryome-detect
 #strict: true
 nav:
   - Home: index.md
