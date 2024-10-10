@@ -43,7 +43,7 @@ import "samtools" version "0.0"
 input = load_mocat_sample(ARGV[1])
 
 mapped = map(input, fafile=ARGV[2])
-write(samtools_sort(mapped), ofile='{result_dir}/{reference_type}_unfiltered.bam' )
+write(samtools_sort(mapped), ofile='{temp_dir}/{reference_type}_unfiltered.bam' )
 
 mapped = select(mapped) using |mr|:
     mr = mr.filter(min_match_size=70, min_identity_pc={min_identity_pc}, action={{drop}})
