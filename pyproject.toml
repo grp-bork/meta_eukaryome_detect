@@ -1,8 +1,8 @@
 [tool]
 [tool.poetry]
-name = "meta-eukaryome-detect"
+name = "meta_eukaryome_detect"
 version = "0.1.0"
-homepage = "https://github.com/fullam/meta-eukaryome-detect"
+homepage = "https://git.embl.de/grp-bork/meta-eukaryome-detect"
 description = "Pathogen, Parasite, Eukaryote and Virus detection in metagenomes.."
 authors = ["Anthony Fullam <anthony.fullam@embl.de>"]
 readme = "README.md"
@@ -47,6 +47,7 @@ jinja2 = "^3.1.2"
 mkdocstrings-python = "^1.7.3"
 requests = "^2.31.0"
 types-requests = "^2.31.0.10"
+pandas = "^2.2.3"
 
 [tool.poetry.extras]
 test = [
