@@ -72,7 +72,7 @@ doc = [
     ]
 
 [tool.poetry.scripts]
-meta-eukaryome-detect = 'meta_eukaryome_detect.meta_eukaryome_detect:main'
+meta_eukaryome_detect = 'meta_eukaryome_detect.meta_eukaryome_detect:main'
 
 [tool.black]
 line-length = 120
