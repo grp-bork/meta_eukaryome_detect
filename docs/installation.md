@@ -4,7 +4,7 @@ The recommended method of installation is through [bioconda](https://anaconda.or
 
 ## Download meta_eukaryome_detect DB
 
-Before use the meta-eukaryome-detect DB needs to be downloaded::
+Before use the meta_eukaryome_detect DB needs to be downloaded::
 
     $ meta_eukaryome_detect download_db /path/to/output/dir/
 
@@ -13,7 +13,7 @@ to :code:`meta_eukaryome_detect run` or set as an environment variable: :code:`M
 
 ## Manual Installation
 
-Alternatively meta-eukaryome-detect can be install using pip::
+Alternatively meta_eukaryome_detect can be install using pip::
 
     $ pip install meta_eukaryome_detect
 

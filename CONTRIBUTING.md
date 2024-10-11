@@ -9,7 +9,7 @@ You can contribute in many ways:
 
 ### Report Bugs
 
-Report bugs at [LINK](https://git.embl.de/grp-bork/meta-eukaryome-detect/issues).
+Report bugs at [LINK](https://github.com/grp-bork/meta_eukaryome_detect/issues).
 
 If you are reporting a bug, please include:
 
@@ -19,17 +19,15 @@ If you are reporting a bug, please include:
 
 ### Write Documentation
 
-meta-eukaryome-detect could always use more documentation, whether as part of the
-official meta-eukaryome-detect docs, in docstrings, or even on the web in blog posts,
+meta_eukaryome_detect could always use more documentation, whether as part of the
+official meta_eukaryome_detect docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 ### Submit Feedback
 
-The best way to send feedback is to file an issue at [LINK](https://git.embl.de/grp-bork/meta-eukaryome-detect/issues).
+The best way to send feedback is to file an issue at [LINK](https://github.com/grp-bork/meta_eukaryome_detect/issues).
 
 If you are proposing a feature:
 
 * Explain in detail how it would work.
 * Keep the scope as narrow as possible, to make it easier to implement.
-* Remember that this is a volunteer-driven project, and that contributions
-  are welcome :)

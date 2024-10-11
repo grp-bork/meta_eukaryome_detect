@@ -1,7 +1,7 @@
-site_name: meta-eukaryome-detect
+site_name: meta_eukaryome_detect
 site_url: https://grp-bork.embl-community.io/grp-microbiome-astrology/meta_eukaryome_detect/
-repo_url: https://git.embl.de/grp-bork/meta-eukaryome-detect
-repo_name: grp-bork/meta-eukaryome-detect
+repo_url: https://github.com/grp-bork/meta_eukaryome_detect
+repo_name: grp-bork/meta_eukaryome_detect
 #strict: true
 nav:
   - Home: index.md
@@ -47,19 +47,11 @@ plugins:
       lang: en
   - mkdocstrings:
       watch:
-        - meta-eukaryome-detect
+        - meta_eukaryome_detect
 extra:
   social:
-    - icon: fontawesome/brands/twitter
-      # replace with your own tweet link below
-      link: https://github.com/waynerv/cookiecutter-pypackage
-      name: Tweet
-    - icon: fontawesome/brands/facebook
-      # replace with your own facebook link below
-      link: https://github.com/waynerv/cookiecutter-pypackage
-      name: Facebook
     - icon: fontawesome/brands/github
-      link: https://github.com/fullam/meta-eukaryome-detect
+      link: https://github.com/grp-bork/meta_eukaryome_detect
       name: Github
     - icon: material/email
       link: "mailto:anthony.fullam@embl.de"

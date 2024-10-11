@@ -1,1 +1,1 @@
-"""Unit test package for meta-eukaryome-detect."""
+"""Unit test package for meta_eukaryome_detect."""
