@@ -2,7 +2,7 @@
 
 ## 0.1.1 (2024-10-11)
 
-* Changed commmand from meta-eukaryome-detect to meta_eukaryome_detect
+* Changed command from meta-eukaryome-detect to meta_eukaryome_detect
 
 ## 0.1.0 (2024-10-10)
 
