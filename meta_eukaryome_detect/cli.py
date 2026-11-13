@@ -8,8 +8,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from .. import external_tools, meta_eukaryome_database
-from . import create_ngless_template, depth_summary
+from . import create_ngless_template, depth_summary, external_tools, meta_eukaryome_database
 
 logger = logging.getLogger("meta_eukaryome_detect")
 

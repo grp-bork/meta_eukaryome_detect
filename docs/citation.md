@@ -7,10 +7,11 @@ A paper describing the method is in preparation:
 
 Until it is published, please cite the repository and the database:
 
-> Fullam A. meta_eukaryome_detect: Pathogen, Parasite, Eukaryote and Virus detection in
-> metagenomes. <https://github.com/grp-bork/meta_eukaryome_detect>
+> Maistrenko OM, Kim CY, Nishijima S, Fullam A, et al. metaEukaryome: Pathogen, Parasite, Eukaryote
+> and Virus detection in metagenomes. <https://github.com/grp-bork/meta_eukaryome_detect>
 >
-> metaEukaryome database (v1.0.0). Zenodo. <https://doi.org/10.5281/zenodo.24198236>
+> Maistrenko OM, Kim CY, Nishijima S, Fullam A, et al. metaEukaryome database (v1.0.0). Zenodo.
+> <https://doi.org/10.5281/zenodo.24198236>
 
 Please also cite the tools and databases it is built on:
 
