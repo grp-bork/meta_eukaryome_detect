@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.0 (2026-11-13)
 
 * The tool is now called metaEukaryome; the package and main command stay `meta_eukaryome_detect`.
 * Added `eukscan` as a shorter alias of the `meta_eukaryome_detect` command.
