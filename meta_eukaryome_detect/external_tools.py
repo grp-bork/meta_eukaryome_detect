@@ -87,4 +87,4 @@ def samtools_depth(unique_bam: Path, unique_depth: Path, verbose: bool) -> None:
             universal_newlines=True,
         )
     except subprocess.CalledProcessError as e:
-        sys.exit(f"[ERROR] Failed to run samtools view on {unique_bam} \n {e.output}")
+        sys.exit(f"[ERROR] Failed to run samtools depth on {unique_bam} \n {e.output}")

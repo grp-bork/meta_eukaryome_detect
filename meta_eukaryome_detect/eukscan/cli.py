@@ -8,9 +8,10 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from . import create_ngless_template, depth_summary, external_tools, meta_eukaryome_database
+from .. import external_tools, meta_eukaryome_database
+from . import create_ngless_template, depth_summary
 
-logger = logging.getLogger("meta_eukaryome_detect.py")
+logger = logging.getLogger("eukscan")
 
 
 def parse_args(args):
@@ -25,9 +26,9 @@ def parse_args(args):
     """
     description = "Pathogen, Parasite, Eukaryote and Virus detection in metagenomes.\n"
     formatter = lambda prog: argparse.HelpFormatter(prog, max_help_position=155)
-    parser = argparse.ArgumentParser(description=description, formatter_class=formatter)
-    subparsers = parser.add_subparsers(title="meta_eukaryome_detect subcommands", metavar="", dest="cmd")
-    run = subparsers.add_parser("run", help="Run Meta-Eukaryome-Detection.", formatter_class=formatter)
+    parser = argparse.ArgumentParser(prog="eukscan", description=description, formatter_class=formatter)
+    subparsers = parser.add_subparsers(title="eukscan subcommands", metavar="", dest="cmd")
+    run = subparsers.add_parser("run", help="Run eukscan.", formatter_class=formatter)
     run_group = run.add_mutually_exclusive_group(required=True)
     advanced_run = run.add_argument_group('Advanced Options')
     download_db = subparsers.add_parser(
@@ -43,9 +44,9 @@ def parse_args(args):
     run_group.add_argument(
         "-i",
         "--input_sample_dir",
-        help="""Input directory contining fasta files for a sample
-             (suffixes of the form _1.fq.gz .2.fq.gz single.fg.gz allowed)""",
-        metavar="",
+        help="""Input directory containing fastq files for a sample
+             (suffixes of the form _1.fq.gz .2.fq.gz single.fq.gz allowed)""",
+        metavar="DIR",
     )
     run.add_argument(
         "-s",
@@ -113,7 +114,7 @@ def parse_args(args):
     )
     run.add_argument(
         "--keep_temp_files",
-        help="Do not remove temproary files",
+        help="Do not remove temporary files",
         action="store_true",
         default=False,
     )
@@ -208,7 +209,7 @@ def run(args):
             threads = int(threads / jobs)
     else:
         jobs = 1
-    for template in ['plastid', 'mito', 'pr2', 'virulence', 'viruses']:
+    for template in ['pr2', 'plastid', 'mito', 'virulence', 'viruses']:
         meta.append(
             (
                 template,
@@ -268,7 +269,7 @@ def main():
             datefmt="%H:%M:%S",
             level=logging.INFO,
         )
-    logger = logging.getLogger("meta_eukaryome_detect.py")
+    logger = logging.getLogger("eukscan")
     logger.debug(args)
     start_time = datetime.now()
     logger.info(f'START {start_time.strftime("%Y-%m-%d")}')

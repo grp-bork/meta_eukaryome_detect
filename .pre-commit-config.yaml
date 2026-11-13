@@ -12,6 +12,7 @@ repos:
       - id: check-merge-conflict
       - id: check-yaml
         args: [ --unsafe ]
+        exclude: ^recipes/
   - repo: https://github.com/pre-commit/mirrors-isort
     rev: v5.8.0
     hooks:
@@ -23,10 +24,10 @@ repos:
       - id: black
         language_version: python3.11
   - repo: https://github.com/pycqa/flake8
-    rev: 3.9.2
+    rev: 7.1.1
     hooks:
       - id: flake8
-        additional_dependencies: [ flake8-typing-imports==1.10.0 ]
+        additional_dependencies: [ flake8-typing-imports==1.16.0 ]
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.7.0
     hooks:

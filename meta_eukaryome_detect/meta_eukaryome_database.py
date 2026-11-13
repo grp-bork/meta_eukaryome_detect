@@ -85,7 +85,7 @@ def check_md5(expected_md5, file_path):
 
 
 def get_db(base_dir):
-    """Download GUNC DB.
+    """Download meta_eukaryome_detect DB.
 
     Arguments:
         base_dir (str): Path of output directory
