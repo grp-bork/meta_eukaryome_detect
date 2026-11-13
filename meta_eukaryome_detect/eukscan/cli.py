@@ -11,7 +11,7 @@ from pathlib import Path
 from .. import external_tools, meta_eukaryome_database
 from . import create_ngless_template, depth_summary
 
-logger = logging.getLogger("eukscan")
+logger = logging.getLogger("meta_eukaryome_detect")
 
 
 def parse_args(args):
@@ -26,9 +26,9 @@ def parse_args(args):
     """
     description = "Pathogen, Parasite, Eukaryote and Virus detection in metagenomes.\n"
     formatter = lambda prog: argparse.HelpFormatter(prog, max_help_position=155)
-    parser = argparse.ArgumentParser(prog="eukscan", description=description, formatter_class=formatter)
-    subparsers = parser.add_subparsers(title="eukscan subcommands", metavar="", dest="cmd")
-    run = subparsers.add_parser("run", help="Run eukscan.", formatter_class=formatter)
+    parser = argparse.ArgumentParser(prog="meta_eukaryome_detect", description=description, formatter_class=formatter)
+    subparsers = parser.add_subparsers(title="subcommands", metavar="", dest="cmd")
+    run = subparsers.add_parser("run", help="Run metaEukaryome on a sample.", formatter_class=formatter)
     run_group = run.add_mutually_exclusive_group(required=True)
     advanced_run = run.add_argument_group('Advanced Options')
     download_db = subparsers.add_parser(
@@ -269,7 +269,7 @@ def main():
             datefmt="%H:%M:%S",
             level=logging.INFO,
         )
-    logger = logging.getLogger("eukscan")
+    logger = logging.getLogger("meta_eukaryome_detect")
     logger.debug(args)
     start_time = datetime.now()
     logger.info(f'START {start_time.strftime("%Y-%m-%d")}')

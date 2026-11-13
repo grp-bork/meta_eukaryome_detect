@@ -98,7 +98,7 @@ def get_db(base_dir):
     logger = logging.getLogger(__name__)
     if not os.path.isdir(base_dir):
         sys.exit(f"[ERROR] Output Directory {base_dir} doesnt exist.")
-    base_url = "https://swifter.embl.de/~fullam/meta_eukaryome_database/"
+    base_url = "https://zenodo.org/records/24198236/files/"
     files_to_download = get_md5_file(f"{base_url}MD5SUM_gzipped")
     uncompressed_md5s = get_md5_file(f"{base_url}MD5SUM")
     count_files_to_download = len(files_to_download)

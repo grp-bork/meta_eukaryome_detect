@@ -2,10 +2,10 @@
 
 ## Unreleased
 
-* Added the `eukscan` command, the first method of meta_eukaryome_detect. The package name is unchanged.
-* `meta_eukaryome_detect` is kept as an alias of `eukscan`.
+* The tool is now called metaEukaryome; the package and main command stay `meta_eukaryome_detect`.
+* Added `eukscan` as a shorter alias of the `meta_eukaryome_detect` command.
+* The database is now downloaded from Zenodo (<https://doi.org/10.5281/zenodo.24198236>).
 * Documentation and dependency-only packages are now optional extras; only `requests` and `pandas` are installed at runtime.
-* Moved the eukscan code into `meta_eukaryome_detect.eukscan`.
 
 ## 0.1.1 (2024-10-11)
 

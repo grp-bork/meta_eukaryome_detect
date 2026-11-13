@@ -72,8 +72,8 @@ doc = [
     ]
 
 [tool.poetry.scripts]
-eukscan = 'meta_eukaryome_detect.eukscan.cli:main'
 meta_eukaryome_detect = 'meta_eukaryome_detect.eukscan.cli:main'
+eukscan = 'meta_eukaryome_detect.eukscan.cli:main'
 
 [tool.black]
 line-length = 120

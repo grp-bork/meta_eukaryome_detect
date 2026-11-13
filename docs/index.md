@@ -1,5 +1,8 @@
 # meta_eukaryome_detect
 
+![metaEukaryome](assets/logo-horizontal.svg){ .logo-light width="360" }
+![metaEukaryome](assets/logo-horizontal-on-dark.svg){ .logo-dark width="360" }
+
 [![pypi](https://img.shields.io/pypi/v/meta_eukaryome_detect.svg)](https://pypi.org/project/meta_eukaryome_detect/)
 [![bioconda](https://img.shields.io/conda/vn/bioconda/meta_eukaryome_detect.svg)](https://anaconda.org/bioconda/meta_eukaryome_detect)
 [![downloads](https://img.shields.io/conda/dn/bioconda/meta_eukaryome_detect.svg)](https://anaconda.org/bioconda/meta_eukaryome_detect)
@@ -7,16 +10,13 @@
 
 Pathogen, Parasite, Eukaryote and Virus detection in metagenomes.
 
-meta_eukaryome_detect is a package of methods for detecting eukaryotes, viruses and virulence genes
-in metagenomes. Installing it gives you the following commands:
+meta_eukaryome_detect is the package for **metaEukaryome**, which detects eukaryotes, viruses and
+virulence genes in metagenomes. It installs the `meta_eukaryome_detect` command and `eukscan`, a
+shorter alias of it.
 
-| Command | Method |
-|---|---|
-| `eukscan` | Read mapping against five curated references (described below) |
+## metaEukaryome
 
-## eukscan
-
-eukscan takes the short reads of a metagenomic sample and maps them against five
+metaEukaryome takes the short reads of a metagenomic sample and maps them against five
 curated references to report which eukaryotes, viruses and virulence genes are present, and how
 well each reference sequence is covered.
 
@@ -42,8 +42,8 @@ See [Method](method.md) for the details.
 
 ```bash
 conda install -c bioconda meta_eukaryome_detect
-eukscan download_db /path/to/db_dir
-eukscan run -i /path/to/sample_dir -d /path/to/db_dir -t 16 -p
+meta_eukaryome_detect download_db /path/to/db_dir
+meta_eukaryome_detect run -i /path/to/sample_dir -d /path/to/db_dir -t 16 -p
 ```
 
 The results are written to `<sample_name>_metaeuk_output/`. See [Output](output.md) for what each file

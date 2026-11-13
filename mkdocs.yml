@@ -1,4 +1,4 @@
-site_name: meta_eukaryome_detect
+site_name: metaEukaryome
 site_url: https://grp-bork.embl-community.io/grp-microbiome-astrology/meta_eukaryome_detect/
 repo_url: https://github.com/grp-bork/meta_eukaryome_detect
 repo_name: grp-bork/meta_eukaryome_detect
@@ -8,10 +8,9 @@ watch:
 nav:
   - Home: index.md
   - Installation: installation.md
-  - eukscan:
-      - Usage: usage.md
-      - Method: method.md
-      - Output: output.md
+  - Usage: usage.md
+  - Method: method.md
+  - Output: output.md
   - Database: database.md
   - Citation: citation.md
   - Contributing: contributing.md
@@ -19,15 +18,16 @@ nav:
 theme:
   name: material
   language: en
-  #logo: assets/logo.png
+  logo: assets/logo.svg
+  favicon: assets/favicon.svg
   palette:
     scheme: preference
-    primary: indigo
-    accent: indigo
   features:
     - navigation.indexes
     - navigation.instant
     - navigation.tabs.sticky
+extra_css:
+  - assets/extra.css
 markdown_extensions:
   - pymdownx.critic
   - pymdownx.caret

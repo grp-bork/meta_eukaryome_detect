@@ -1,1 +1,1 @@
-"""eukscan: Pathogen, Parasite, Eukaryote and Virus detection in metagenomes."""
+"""metaEukaryome: Pathogen, Parasite, Eukaryote and Virus detection in metagenomes."""

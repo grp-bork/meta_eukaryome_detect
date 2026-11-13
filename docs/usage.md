@@ -1,6 +1,6 @@
 # Usage
 
-`eukscan` has two subcommands:
+`meta_eukaryome_detect` (or its alias `eukscan`) has two subcommands:
 
 * `download_db`: download the reference database (see [Installation](installation.md#download-the-database))
 * `run`: analyse one metagenomic sample
@@ -28,7 +28,7 @@ another name.
 ## Running a sample
 
 ```bash
-eukscan run \
+meta_eukaryome_detect run \
     -i /path/to/sample_A \
     -d /path/to/db_dir \
     -o /path/to/results \
@@ -91,7 +91,7 @@ Each run handles one sample. For many samples, loop over the sample directories:
 
 ```bash
 for sample in /path/to/samples/*/; do
-    eukscan run -i "$sample" -d /path/to/db_dir -o /path/to/results -t 16 -p
+    meta_eukaryome_detect run -i "$sample" -d /path/to/db_dir -o /path/to/results -t 16 -p
 done
 ```
 
@@ -102,7 +102,7 @@ or, on a SLURM cluster, submit one job per sample as an array:
 #SBATCH --array=1-100
 #SBATCH --cpus-per-task=16
 sample=$(sed -n "${SLURM_ARRAY_TASK_ID}p" samples.txt)
-eukscan run -i "$sample" -d /path/to/db_dir -o /path/to/results \
+meta_eukaryome_detect run -i "$sample" -d /path/to/db_dir -o /path/to/results \
     -t "$SLURM_CPUS_PER_TASK" -p --temp_dir "$TMPDIR"
 ```
 

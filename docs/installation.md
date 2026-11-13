@@ -34,19 +34,17 @@
 Check that the installation worked:
 
 ```bash
-eukscan -h
+meta_eukaryome_detect -h
 ```
 
-!!! note
-    Up to version 0.1.1 the `eukscan` command was called `meta_eukaryome_detect`. The old name still
-    works but prints a warning, and will be removed in a future release.
+`eukscan` is a shorter alias and can be used in place of `meta_eukaryome_detect` everywhere.
 
 ## Download the database
 
 The database has to be downloaded once before the first run:
 
 ```bash
-eukscan download_db /path/to/db_dir
+meta_eukaryome_detect download_db /path/to/db_dir
 ```
 
 The target directory must already exist. The download is about 1.4 GB compressed and about 3 GB
@@ -68,7 +66,7 @@ See [Database](database.md) for what each reference contains.
 Either pass the directory on every run:
 
 ```bash
-eukscan run -d /path/to/db_dir ...
+meta_eukaryome_detect run -d /path/to/db_dir ...
 ```
 
 or set it once as an environment variable:

@@ -57,14 +57,11 @@ The `ref_id` contains the PR2 taxonomy, separated by `|`. For example:
 | `eukaryote_type2` | Finer category, e.g. `plant`, `commensal`, `pathogen` |
 | `eukaryote_type3` | Food or role category, e.g. `Vegetables`, `Berries`, `Symbiont/fermented food` |
 | `short_name` | Common name |
-| `possible_contaminant_in_human_gut` | Flag for organisms that may be present in a human gut sample without living there: `0`, `1` or `2` |
+| `possible_contaminant_in_human_gut` | `1` or `2`: very likely a contaminant in human gut samples; `0`: not flagged |
 | `other_notes` | Free-text notes, e.g. `Can be poisonous`, `Wine production` |
 
 The annotation columns (`eukaryote_type*` to `other_notes`) are only filled in for some genomes and
 are empty for the rest.
-
-!!! warning "TODO"
-    Explain what the values `0`, `1` and `2` of `possible_contaminant_in_human_gut` mean.
 
 ### `virulence`
 
